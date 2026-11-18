@@ -1,10 +1,24 @@
 /* Image preparation is JavaScript; neural inference is ONNX Runtime Web. */
+import {personalScores} from './personalization.mjs';
 export function validateNumber(text){
-  if(!/^[0-9]{1,4}$/.test(text))return {valid:false,message:'Не вдалося скласти число з 1–4 цифр.'};
-  if(text.length>1&&text[0]==='0')return {valid:false,message:'Напишіть число без провідних нулів.'};
-  const number=Number(text);
-  if(number<1||number>1000)return {valid:false,message:'Результат поза діапазоном 1–1000.'};
-  return {valid:true,number,message:null};
+  if(!/^[0-9]+$/.test(text))return {valid:false,message:'Очікується послідовність цифр 0–9.'};
+  // Keep text intact: Number would round long integers and remove leading zeros.
+  return {valid:true,number:text,message:null};
+}
+
+export function rankSequences(distributions,k=3){
+  let beam=[{text:'',logScore:0}];
+  for(const distribution of distributions){
+    const candidates=[];
+    for(const prefix of beam)for(let digit=0;digit<distribution.length;digit++){
+      const p=distribution[digit];
+      if(Number.isFinite(p)&&p>0)candidates.push({text:prefix.text+digit,logScore:prefix.logScore+Math.log(p)});
+    }
+    beam=candidates.sort((a,b)=>b.logScore-a.logScore||(a.text<b.text?-1:a.text>b.text?1:0)).slice(0,k);
+  }
+  if(!distributions.length)return [];
+  const best=beam[0]?.logScore;
+  return beam.map(candidate=>({...candidate,relativeScore:Math.exp(candidate.logScore-best)}));
 }
 
 export function segmentNumber(pixels,width,height){
@@ -26,7 +40,6 @@ export function segmentNumber(pixels,width,height){
   const gap=Math.max(4,Math.round((yMax-yMin+1)*.035)),groups=[];
   let start=columns[0],previous=start;
   for(const x of columns.slice(1)){if(x-previous>gap+1){groups.push([start,previous]);start=x;}previous=x;}groups.push([start,previous]);
-  if(groups.length>4)throw Error('Знайдено більше чотирьох цифр. Напишіть одне число.');
   return groups.map(([left,right])=>{let top=height,bottom=-1;for(let y=0;y<height;y++)for(let x=left;x<=right;x++)if(clean[y*width+x]){top=Math.min(top,y);bottom=Math.max(bottom,y);}return {bbox:[left,top,right-left+1,bottom-top+1],pixels:clean,width,height};});
 }
 
@@ -54,7 +67,7 @@ export function loadModel(){
   if(!sessionPromise){
     if(!globalThis.ort)throw Error('Не вдалося завантажити бібліотеку моделі. Оновіть сторінку.');
     ort.env.wasm.numThreads=1;ort.env.wasm.proxy=false;ort.env.wasm.wasmPaths=new URL('./vendor/',import.meta.url).href;
-    sessionPromise=ort.InferenceSession.create(new URL('./assets/digit-cnn.onnx',import.meta.url).href,{executionProviders:['wasm']}).catch(error=>{sessionPromise=null;throw error;});
+    sessionPromise=ort.InferenceSession.create(new URL('./assets/digit-cnn.onnx?v=adaptive-1',import.meta.url).href,{executionProviders:['wasm']}).catch(error=>{sessionPromise=null;throw error;});
   }
   return sessionPromise;
 }
@@ -69,7 +82,11 @@ export async function predict(pixels,width,height,mode='number'){
   }else parts=segmentNumber(pixels,width,height);
   const inputs=parts.map(prepareGlyph),batch=new Float32Array(parts.length*784);inputs.forEach((image,i)=>batch.set(image,i*784));
   const session=await loadModel(),output=await session.run({pixels:new ort.Tensor('float32',batch,[parts.length,1,28,28])});
-  const digits=parts.map((part,i)=>({bbox:part.bbox,preview:inputs[i],top3:Array.from({length:10},(_,digit)=>({digit,score:output.probabilities.data[i*10+digit]})).sort((a,b)=>b.score-a.score).slice(0,3)}));
+  if(!output.features)throw Error('Версія моделі застаріла. Оновіть сторінку.');
+  const features=parts.map((_,i)=>Array.from(output.features.data.slice(i*64,i*64+64)));
+  const scores=personalScores(features)||output.probabilities.data;
+  const distributions=parts.map((_,i)=>Array.from(scores.slice(i*10,i*10+10)));
+  const digits=parts.map((part,i)=>({bbox:part.bbox,preview:inputs[i],features:features[i],top3:distributions[i].map((score,digit)=>({digit,score})).sort((a,b)=>b.score-a.score).slice(0,3)}));
   const text=digits.map(d=>d.top3[0].digit).join('');
-  return {text,digits,...(mode==='number'?validateNumber(text):{valid:true,number:Number(text),message:null})};
+  return {text,digits,candidates:rankSequences(distributions),...(mode==='number'?validateNumber(text):{valid:true,number:text,message:null})};
 }

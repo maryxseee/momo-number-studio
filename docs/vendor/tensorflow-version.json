@@ -1,0 +1,6 @@
+{
+  "package": "@tensorflow/tfjs",
+  "version": "4.22.0",
+  "integrity": "sha512-0TrIrXs6/b7FLhLVNmfh8Sah6JgjBPH4mZ8JGb7NU6WW+cx00qK5BcAZxw7NCzxj6N8MRAIfHq+oNbPUNG5VAg==",
+  "source": "https://registry.npmjs.org/@tensorflow/tfjs/-/tfjs-4.22.0.tgz"
+}

@@ -4,7 +4,7 @@
 
 ## Модель
 
-Validation-selected CNN, seed42, checkpoint6. ONNX-граф містить нормалізацію 0…1 → −1…1, всі нейронні шари й softmax. JavaScript не реалізує нейронний forward. Максимальна різниця ONNX Runtime Web і PyTorch на фіксованій контрольній вибірці в браузері: 1.7881393432617188e-7 (tolerance1e-5).
+Validation-selected CNN, seed42, checkpoint6. ONNX-граф містить нормалізацію0…1 →−1…1, нейронні шари й softmax та повертає64 ознаки для персоналізації. Власного forward шарів немає: їх обчислюють ONNX Runtime і TensorFlow.js. Початкова різниця ONNX/PyTorch становить1.788e-7; початковий TFJS-класифікатор зі скопійованими вагами збігається з ONNX до4.769e-7. Дивіться [персональне навчання](PERSONALIZATION.md).
 
 Передобробка малюнка: alpha-aware перетворення кольорових штрихів на grayscale; threshold/8-connected component cleaning; поділ за вертикальною проєкцією; браузерне масштабування до20×20, padding28×28, bilinear центрування за центром мас. Вона схожа за задумом на Python-версію, але Canvas resampling не дорівнює PIL Lanczos, тому Python accuracy не переноситься на сайт.
 
