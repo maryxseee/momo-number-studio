@@ -1,0 +1,15 @@
+.packages/
+__pycache__/
+.ipynb_checkpoints/
+.jupyter/
+.mplconfig/
+.venv/
+digits_project.zip
+.mlpackages/
+.webpackages/
+docs/superpowers/
+tools/github_access.py
+tools/publish_github.py
+mnist_project/data/
+mnist_project/.runtime/
+mnist_research_project.zip

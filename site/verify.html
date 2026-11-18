@@ -1,0 +1,17 @@
+<!doctype html><html lang="uk"><meta charset="utf-8"><title>Перевірка браузерної моделі</title><h1 id="verification">Перевіряємо ONNX…</h1><pre id="details"></pre><script src="./vendor/ort.wasm.min.js"></script><script type="module">
+import {loadModel,predict} from './engine.mjs';
+try{
+ const fixture=await fetch('./assets/parity.json').then(r=>r.json());
+ const session=await loadModel();
+ const output=await session.run({pixels:new ort.Tensor('float32',new Float32Array(fixture.inputs),fixture.shape)});
+ const expected=fixture.expected.flat();let maxDifference=0;
+ expected.forEach((v,i)=>maxDifference=Math.max(maxDifference,Math.abs(v-output.probabilities.data[i])));
+ if(maxDifference>1e-5)throw Error('PyTorch/ONNX mismatch: '+maxDifference);
+ const width=840,height=240,pixels=new Uint8Array(width*height);
+ for(const left of [100,300,500])for(let y=50;y<190;y++)for(let x=left;x<left+16;x++)pixels[y*width+x]=255;
+ const result=await predict(pixels,width,height);
+ if(result.text!=='111'||!result.valid||result.digits.length!==3)throw Error('Expected111, got '+result.text);
+ document.getElementById('verification').textContent='PASS: ONNX parity + число 111';
+ document.getElementById('details').textContent=JSON.stringify({maxDifference,number:result.number,digits:result.digits.length},null,2);
+}catch(error){document.getElementById('verification').textContent='FAIL';document.getElementById('details').textContent=error.stack;}
+</script></html>

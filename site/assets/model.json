@@ -1,0 +1,13 @@
+{
+  "name": "CNN",
+  "seed": 42,
+  "epoch": 6,
+  "checkpoint_selection": "validation_macro_f1",
+  "single_digit_test_accuracy": 0.9828,
+  "research_mean_digit_accuracy": 0.9828666666666667,
+  "python_synthetic_number_accuracy": 0.906,
+  "browser_number_accuracy": null,
+  "browser_preprocessing": "canvas resampling + center of mass; differs from PIL/SciPy",
+  "runtime": "ONNX Runtime Web",
+  "input": "float32 [N,1,28,28], range 0..1; normalization is inside graph"
+}

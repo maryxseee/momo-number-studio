@@ -1,0 +1,7 @@
+{
+  "name": "LogisticRegression",
+  "seed": 42,
+  "validation_macro_f1": 0.9204047271214973,
+  "training_seconds": 5.210016299999552,
+  "parameters": 7850
+}

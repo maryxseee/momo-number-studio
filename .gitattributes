@@ -1,0 +1,8 @@
+# Preserve generated artifacts and their SHA-256 manifests byte-for-byte.
+* -text
+*.png binary
+*.wasm binary
+*.onnx binary
+*.pt binary
+*.npz binary
+*.joblib binary

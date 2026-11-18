@@ -1,0 +1,11 @@
+{
+  "name": "MLP",
+  "seed": 42,
+  "validation_macro_f1": 0.9597015689501219,
+  "selected_epoch": 6,
+  "training_seconds": 11.147146600007545,
+  "parameters": 109386,
+  "checkpoint": "checkpoints/MLP_42.pt",
+  "epochs_run": 6,
+  "initial_weights_sha256": "2bab5aebe427532f7364e7ecad10c029166932549184652918f797e46083b0cb"
+}

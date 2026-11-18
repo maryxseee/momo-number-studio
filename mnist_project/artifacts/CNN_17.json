@@ -1,0 +1,11 @@
+{
+  "name": "CNN",
+  "seed": 17,
+  "validation_macro_f1": 0.9809286358340537,
+  "selected_epoch": 6,
+  "training_seconds": 73.18374930002028,
+  "parameters": 52138,
+  "checkpoint": "checkpoints/CNN_17.pt",
+  "epochs_run": 6,
+  "initial_weights_sha256": "3e8ecf3ddc73391cd2f6da8b66c8861034dde7a22669de8f5cfa4d8a6b34d973"
+}

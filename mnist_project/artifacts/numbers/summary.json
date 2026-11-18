@@ -1,0 +1,35 @@
+{
+  "source": "official_mnist_test_digits_synthetic_composition",
+  "checkpoint": "checkpoints/CNN_42.pt",
+  "real_handwriting_evaluated": false,
+  "layouts": {
+    "spaced": {
+      "samples": 1000,
+      "numbers_min": 1,
+      "numbers_max": 1000,
+      "exact_numbers": 906,
+      "exact_number_accuracy": 0.906,
+      "segmentation_accuracy_iou08": 0.978,
+      "digit_count_accuracy": 0.983,
+      "oracle_exact_number_accuracy": 0.923,
+      "oracle_digits_correct": 2815,
+      "oracle_digits_total": 2893,
+      "oracle_digit_accuracy": 0.9730383684756309,
+      "range_rejections": 24
+    },
+    "zero_gap": {
+      "samples": 1000,
+      "numbers_min": 1,
+      "numbers_max": 1000,
+      "exact_numbers": 9,
+      "exact_number_accuracy": 0.009,
+      "segmentation_accuracy_iou08": 0.009,
+      "digit_count_accuracy": 0.009,
+      "oracle_exact_number_accuracy": 0.923,
+      "oracle_digits_correct": 2815,
+      "oracle_digits_total": 2893,
+      "oracle_digit_accuracy": 0.9730383684756309,
+      "range_rejections": 20
+    }
+  }
+}
