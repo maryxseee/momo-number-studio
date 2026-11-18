@@ -1,0 +1,156 @@
+/* Reference-led washi, pagoda, lantern and maneki-neko visual layer.
+   Functional canvas, inference and personal-training code are unchanged. */
+:root {
+  --paper: #fff3df;
+  --ink: #432b4c;
+  --muted: #776078;
+  --pink: #edb083;
+  --yellow: #f5d483;
+  --purple: #a385bd;
+  --line: #dfc6b6;
+  --white: #fffaf1;
+  background: var(--paper);
+}
+body { position: relative; isolation: isolate; background-color: var(--paper); }
+.reference-scenery {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg, #fff3dfad 0%, #fff3dff5 18%, #fff3dff7 82%, #fff3dfbf 100%),
+    url('./assets/momo-festival.png');
+  background-position: center, center top;
+  background-size: cover;
+}
+.reference-scenery::before {
+  content: '';
+  position: absolute;
+  left: -95px;
+  top: 115px;
+  width: 380px;
+  height: 440px;
+  background: url('./assets/blossom-branch.svg') center / contain no-repeat;
+  opacity: .27;
+}
+.reference-scenery::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('./assets/wave-pattern.svg') left bottom / 105px 52px repeat;
+  opacity: .2;
+  mask-image: linear-gradient(90deg, #000, transparent 17%, transparent 83%, #000);
+}
+.header { border-color: #d6b99f; background: #fff4e5cc; }
+.brand-flower { color: #bc755e; }
+.repo-link { background: #f8e4b9b3; border-color: #86617d; }
+.repo-link:hover { background: #f2d491; color: #563450; }
+.hero {
+  grid-template-columns: 1fr 1.18fr;
+  gap: 26px;
+  padding: 48px 0 48px;
+}
+.hero-copy { position: relative; z-index: 1; }
+.hero-copy .eyebrow { color: #8f6757; }
+h1 em { color: #a15d4d; }
+.intro { color: #7f6170; }
+.hero-note { color: #846a75; }
+.hero .festival-poster {
+  height: auto;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 0 5px;
+  transform: rotate(-2deg);
+  transform-origin: center;
+  padding: 10px 10px 0;
+  background: #fff5df;
+  border: 1px solid #d1ad86;
+  border-radius: 3px;
+  box-shadow: 8px 10px 0 #aa89bc28, 0 15px 32px #714d3820;
+  opacity: 1;
+}
+.festival-poster img { width: 100%; height: auto; display: block; border: 1px solid #c59d7c; }
+.poster-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  min-height: 41px;
+  padding: 5px 7px;
+  color: #967055;
+  font-size: 8px;
+  letter-spacing: 1.8px;
+}
+.poster-stamp { color: #9d605a; border: 1px solid #a66c5c; padding: 3px 5px; font-size: 11px; letter-spacing: 1px; transform: rotate(-6deg); }
+.edge-lanterns { position: absolute; right: 9px; top: 0; width: 100px; height: 260px; pointer-events: none; opacity: .65; z-index: 0; }
+.hanging-lantern { position: absolute; width: 47px; height: 77px; border: 1px solid #9d725d; border-radius: 44%; background: repeating-linear-gradient(0deg, transparent 0 4px, #80585728 4px 5px), #f5d28b; box-shadow: inset 5px 0 10px #fff4ca, inset -6px 0 10px #b88b6529; }
+.hanging-lantern::before { content: ''; position: absolute; height: 95px; width: 1px; background: #886278; left: 50%; bottom: 100%; }
+.hanging-lantern::after { content: ''; position: absolute; width: 20px; height: 6px; border-radius: 2px; background: #715163; bottom: -4px; left: 12px; box-shadow: 0 -78px #715163; }
+.lantern-gold { left: 0; top: 145px; transform: rotate(6deg); }
+.lantern-violet { right: 0; top: 70px; background-color: #dac6e4; transform: rotate(-7deg); }
+.studio { background: #fffaf1; border-color: #cead91; box-shadow: 0 8px 0 #d6b78c40, 0 14px 35px #86604e0a; }
+.studio-heading { background: linear-gradient(100deg, #fff6df, #faf0e6); border-color: #dec3aa; }
+.studio-heading .eyebrow { color: #a56e53; }
+.mode-tabs { background: #eadce8; }
+.mode.active { background: #654575; }
+.drawing-area { background: #fffcf5; }
+.paper-tag i { background: #c88866; }
+.canvas-wrap { border-color: #ddc5ab; background-color: #fffef9; }
+.tools { background-color: #f9e5b4; background-image: linear-gradient(#f9e5b4 62%, #f9e5b400), url('./assets/wave-pattern.svg'); background-size: auto, 80px 40px; border-color: #dcc097; }
+.tools-title { color: #8a694d; }
+.tools-note { color: #9b754e; }
+.tools-note > span { color: #a17db0; }
+.action-bar { background: #fff8ed; border-color: #dfc7af; }
+.recognize { background: #eeb380; border-color: #c58a65; color: #4f3153; box-shadow: 0 3px 0 #c9987280; }
+.recognize:hover:enabled { background: #e8a36d; }
+.text-button { color: #975851; }
+.result-panel { background: #e8d9ed; border-color: #bea2c9; }
+.result-details { background: #faf4fb; border-color: #d5bddf; }
+.result-main .eyebrow { color: #825b96; }
+.result-main p:last-child { color: #82668b; }
+.digit-card { background: #fffaf2; border-color: #d6bedb; }
+.digit-card strong, .digit-card p { color: #80628f; }
+.alternatives button { background: #f8e5ba; border-color: #c8a4c7; }
+.feedback button { background: #f3ddc9; border-color: #cba8b6; }
+.feedback, .alternatives { border-color: #d4bcdd; }
+.how { position: relative; }
+.how::before { content: ''; display: block; width: 135px; height: 22px; margin: 0 auto 17px; background: url('./assets/wave-pattern.svg') center / 65px 32px; opacity: .75; }
+.how-grid .step-number { position: relative; border: 1px solid #c8a17f; border-radius: 45%; background-image: repeating-linear-gradient(0deg, transparent 0 3px, #7351711a 3px 4px); }
+.how-grid .step-number::before, .how-grid .step-number::after { content: ''; position: absolute; width: 16px; height: 4px; background: #896173; left: 12px; border-radius: 2px; }
+.how-grid .step-number::before { top: -3px; }
+.how-grid .step-number::after { bottom: -3px; }
+.step-number.pink { background-color: #f1c6ab; }
+.step-number.yellow { background-color: #f4d582; }
+.step-number.purple { background-color: #dfc9e5; }
+.how article p { color: #856777; }
+.research { background: #fbebcc; border-color: #cfac85; }
+.local-learning-note { background: linear-gradient(100deg, #fff7e6ed, #f4e9f1e8), url('./assets/momo-festival.png') center 60% / cover; border: 1px solid #ddc1b3; padding: 22px; border-radius: 10px; }
+.local-learning-note strong { color: #74516f; }
+.local-learning-note button { background: #ead9ec; border-color: #bfa2c9; }
+.footer { border-color: #d1ae8f; background: #fff3ded6; }
+.footer-brand span { color: #bc7d5c; }
+@media (max-width: 1100px) {
+  .edge-lanterns { display: none; }
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr 1fr; gap: 18px; padding-top: 36px; }
+  .hero .festival-poster { margin-left: 0; }
+  h1 { font-size: 40px; }
+}
+@media (max-width: 650px) {
+  .reference-scenery { background-image: linear-gradient(#fff3dfdc, #fff3dff2), url('./assets/momo-festival.png'); background-position: center, 65% top; }
+  .reference-scenery::before { width: 230px; left: -135px; top: 130px; opacity: .25; }
+  .reference-scenery::after { opacity: .15; }
+  .hero { display: block; padding: 32px 0 27px; }
+  h1 { font-size: 36px; }
+  .hero .festival-poster { width: 100%; max-width: 420px; margin: 25px auto 4px; padding: 7px 7px 0; transform: rotate(-1deg); box-shadow: 5px 6px 0 #aa89bc25; }
+  .poster-caption { min-height: 31px; font-size: 6px; letter-spacing: 1.4px; }
+  .poster-stamp { font-size: 9px; padding: 2px 4px; }
+  .studio-heading { padding-top: 19px; }
+  .how-grid .step-number { position: absolute; }
+  .local-learning-note { padding: 18px; }
+  .local-learning-note button { margin-top: 13px; }
+}
+@media (max-width: 360px) {
+  h1 { font-size: 32px; }
+}
