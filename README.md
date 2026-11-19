@@ -1,83 +1,74 @@
-# MOMO · Number Studio 🌸
+# Розпізнавання рукописних цифр: порівняння трьох моделей
 
-**Публічний сайт: [maryxseee.github.io/momo-number-studio](https://maryxseee.github.io/momo-number-studio/)**
+**Автор: Колесник Марія · КН-3, група 1**
 
-Студія рукописних чисел у теплій жовтій, рожевій, рудій і фіолетовій палітрі: вінтажний папір, пагода, сакура, паперові ліхтарі та манекі-неко. Оригінальна ілюстрація й промпт описані в [ARTWORK.md](site/assets/ARTWORK.md). Намалюйте в один рядок стільки цифр0–9, скільки вміститься на полотні, залишивши проміжки. Межі1000 або чотирьох цифр немає; довгі результати зберігаються як точні рядки. Є дві альтернативи всього запису та [справжнє персональне донавчання в браузері](PERSONALIZATION.md).
+Навчальний проєкт із машинного навчання на MNIST. На однакових даних навчено LogisticRegression, MLP та CNN. Порівнюються accuracy, macro-F1, час навчання, швидкість прогнозування, кількість параметрів і розмір моделей. CNN з аугментацією — додатковий експеримент зі стійкістю, а не окрема архітектура.
 
-Розпізнавання повністю виконується **локально у браузері** через ONNX Runtime Web. Малюнки не завантажуються на сервер; відвідувачам не потрібні Python або localhost. GitHub Pages віддає HTML, JavaScript, WASM і ONNX-модель із цього репозиторію.
+## З чого почати перевірку
 
-Для локального перегляду: `python tools/serve_site.py`, відкрити [localhost:8768](http://127.0.0.1:8768). Helper задає правильні MIME-типи `.mjs` у Windows. Перевірки: `node --test site/tests/segmentation.test.mjs`; сторінка `/verify.html` порівнює ONNX із PyTorch на однакових тензорах і перевіряє число 111.
+1. [Виконаний Notebook](mnist_project/research.ipynb) — пояснення, код, результати й графіки.
+2. [Повний звіт](mnist_project/REPORT.md) — методика, результати, аналіз та обмеження.
+3. [Порівняння трьох моделей](mnist_project/COMPARISON.md) — підсумкова таблиця якості й витрат.
+4. [Відповідність вимогам](mnist_project/REQUIREMENTS.md) — де знайти кожний елемент роботи.
 
-Код сайту — `site/`; копія для GitHub Pages — `docs/`. Публікація з **main /docs**. Після редагування `site/` виконайте `python tools/build_pages.py`, потім commit/push. Runtime зафіксовано на версії **1.31.1**, [MIT notice](site/vendor/LICENSE) включено. Для експорту з PyTorch використовується `tools/prepare_web.py` (додаткова залежність `onnx`).
+## Мапа репозиторію
 
-**Межі:**90,6% — точність початкового Python-пайплайна на синтетичних числах1–1000, а не виміряна точність сайту, довгих записів чи локально донавченої моделі. Canvas preprocessing відрізняється від PIL/SciPy. Softmax не гарантує правильності. Цифри, що зливаються, кілька рядків, мінуси та дробові роздільники надійно не підтримуються. Нуль і провідні нулі зберігаються.
+### Дослідження та джерела
 
-Після розпізнавання підтвердьте запис або введіть правильний. TensorFlow.js донавчає останній шар на ваших мітках; персональні ваги й приклади зберігаються лише у вашому браузері. Тому ваші результати можуть відрізнятися від результатів автора. Є повернення до базової моделі.
+| Файл або папка | Призначення |
+| --- | --- |
+| [mnist_project/](mnist_project/) | Основна дослідницька робота |
+| [README дослідження](mnist_project/README.md) | Встановлення, запуск і відтворення |
+| [research.ipynb](mnist_project/research.ipynb) | Виконаний Notebook із кодом і результатами |
+| [REPORT.md](mnist_project/REPORT.md) | Повний дослідницький звіт |
+| [DATASET.md](mnist_project/DATASET.md) | Походження MNIST, формат, баланс класів і поділ |
+| [LITERATURE.md](mnist_project/LITERATURE.md) | Огляд трьох наукових статей |
+| [COMPARISON.md](mnist_project/COMPARISON.md) | Порівняння якості, швидкості та складності |
+| [REQUIREMENTS.md](mnist_project/REQUIREMENTS.md) | Відповідність завданню |
 
-## Основна дослідницька робота: MNIST + PyTorch
+### Навчання, оцінювання та результати
 
-Уточнені вимоги: один датасет, огляд статей, три моделі різної складності та порівняння якості/швидкості. Карта матеріалів — [mnist_project/REQUIREMENTS.md](mnist_project/REQUIREMENTS.md); порівняння — [mnist_project/COMPARISON.md](mnist_project/COMPARISON.md). Сайт є додатковою демонстрацією до дослідження.
+| Файл або папка | Призначення |
+| --- | --- |
+| [config.json](mnist_project/config.json) | Seeds, бюджет і умови експерименту |
+| [data.py](mnist_project/data.py) | Завантаження MNIST, розбиття та передобробка |
+| [models.py](mnist_project/models.py) | Архітектури MLP і CNN на шарах PyTorch |
+| [experiment.py](mnist_project/experiment.py) | Навчання моделей і збереження checkpoint |
+| [evaluate.py](mnist_project/evaluate.py) | Test-метрики, прогнози та стійкість |
+| [benchmark.py](mnist_project/benchmark.py) | Повторний хронометраж single/batch прогнозування |
+| [report.py](mnist_project/report.py) | Генерація звіту та графіків |
+| [comparison_report.py](mnist_project/comparison_report.py) | Генерація порівняльної таблиці та висновків |
+| [build_research.py](mnist_project/build_research.py) | Створення та виконання Notebook |
+| [artifacts/](mnist_project/artifacts/) | Збережені результати експериментів |
+| [checkpoints/](mnist_project/artifacts/checkpoints/) | Ваги дев’яти нейронних запусків |
+| [logistic_regression.joblib](mnist_project/artifacts/logistic_regression.joblib) | Навчена логістична регресія |
+| [model_comparison.csv](mnist_project/artifacts/model_comparison.csv) | Підсумкові числові результати трьох моделей |
+| [training_summary.csv](mnist_project/artifacts/training_summary.csv) | Час навчання, параметри й validation-метрики |
+| [benchmark_raw.csv](mnist_project/artifacts/benchmark_raw.csv) | Сирі повторні вимірювання часу |
+| [benchmark_protocol.json](mnist_project/artifacts/benchmark_protocol.json) | Умови хронометражу, середовище й hashes ваг |
+| [figures/](mnist_project/artifacts/figures/) | Приклади даних, криві навчання та графіки результатів |
+| [tests/](mnist_project/tests/) | Перевірка даних, моделей, артефактів і застосунку |
+| [requirements.txt](mnist_project/requirements.txt) | Python-залежності дослідження |
 
-Розширений дослідницький проєкт розташований у [mnist_project/README.md](mnist_project/README.md). Виконаний Notebook — `mnist_project/research.ipynb`, повний звіт — `mnist_project/REPORT.md`, архів для передачі — `mnist_research_project.zip`.
+### Додаткова демонстрація
 
-Нижче описано **попередній вступний експеримент Digits**, який збережено окремо.
+| Файл або папка | Призначення |
+| --- | --- |
+| [Публічний сайт MOMO](https://maryxseee.github.io/momo-number-studio/) | Розпізнавання намальованих цифр у браузері |
+| [site/](site/) | Вихідний код браузерного застосунку |
+| [docs/](docs/) | Статична копія для GitHub Pages |
+| [WEB.md](WEB.md) | ONNX-модель, передобробка та технічне відтворення |
+| [PERSONALIZATION.md](PERSONALIZATION.md) | Локальне донавчання та його обмеження |
+| [tools/](tools/) | Експорт моделі, збірка й локальний перегляд сайту |
+| [app.py](mnist_project/app.py) | Окрема локальна Python-демонстрація |
+| [NUMBERS.md](mnist_project/NUMBERS.md) | Додатковий синтетичний benchmark чисел 1–1000 |
 
-# Розпізнавання рукописних цифр — попередній експеримент
+MNIST завантажується бібліотечним loader під час першого запуску; самі навчальні зображення й установлені бібліотеки до репозиторію не включено. Інструкції та команди — у [README дослідження](mnist_project/README.md).
 
-Навчальна робота з машинного навчання. Головний файл для перегляду й здачі — **digits_classification.ipynb**. Він містить пояснення українською, код, фактичні результати виконання, графіки та висновки. Автор: Колесник Марія, КН-3, група 1.
+Браузерний застосунок працює локально через ONNX Runtime Web. Персональні приклади й ваги зберігаються в браузері. Якість на MNIST не є виміряною точністю сайту чи персонального донавчання; мінуси, дробові роздільники та злиті цифри надійно не підтримуються.
 
-## Склад
+Для локального перегляду сайту: `python tools/serve_site.py`, потім відкрити `http://127.0.0.1:8768`. Для оновлення статичної копії: `python tools/build_pages.py`.
 
-- `digits_classification.ipynb` — виконаний Notebook.
-- `train_digits.py` — той самий експеримент як Python-скрипт із клітинками `# %%` (підтримує VS Code).
-- `build_notebook.py` — створення Notebook зі скрипту та повне виконання.
-- `results/` — таблиці CV, метрики JSON, передбачення, графіки та фактичні висновки.
-- `DEFENSE.md` — коротка доповідь і пояснення для захисту.
-- `test_project.py` — перевірка неперетину даних, узгодженості результатів і виконання Notebook.
+### Попередній вступний експеримент
 
-## Запуск на власному комп'ютері
-
-Рекомендовано Python 3.12. Команди виконуються в каталозі проєкту:
-
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python build_notebook.py --execute
-python -m unittest -v test_project
-```
-
-У Linux/macOS активація: `source .venv/bin/activate`.
-Замість активації у Windows можна викликати `.venv\Scripts\python.exe`.
-Для окремого запуску скрипту: `python train_digits.py`. У терміналі таблиці будуть текстовими, а PNG збережуться у `results/`.
-Для запуску скрипту без вікон графіків у PowerShell спочатку задайте `$env:MPLBACKEND = 'Agg'`; це прибирає очікування закриття інтерактивних вікон. Notebook відображає графіки всередині клітинок.
-Для відкриття Notebook використайте VS Code з розширенням Jupyter або додатково встановіть `jupyterlab` і виконайте `python -m jupyterlab`.
-Фіксація версій відображає середовище фактичного запуску, а не мінімальні вимоги API.
-Після встановлення бібліотек для даних доступ до мережі не потрібен: Digits входить у scikit-learn.
-
-## Методологія
-
-1797 прикладів, 64 ознаки, 10 класів. Стратифікований поділ 1437/360, seed=42.
-Dummy, LogisticRegression, SVC та RandomForest порівнюються за 5-fold CV тільки на train.
-GridSearchCV підбирає параметри; критерій вибору — macro-F1. Масштабування знаходиться всередині Pipeline.
-Найкраща модель автоматично перенавчається на всьому train через `refit`; це навчання з нуля, а не донавчання попередньо навченої моделі.
-Test використовується після вибору моделі; додаються classification report, матриця помилок, 95% Wilson-інтервал accuracy.
-Окремі досліди: learning curve на train та stress test із наперед заданим гаусівським шумом на test без зміни моделі.
-
-Загалом 17 конфігурацій × 5 folds = 85 CV-навчань, а також 4 refit і 15 навчань для learning curve.
-Час виконання залежить від процесора; використовується один worker для передбачуваного споживання ресурсів.
-
-## Межі висновків
-
-Якість на Digits не підтверджує якість на фотографіях. Поділ випадковий, а не за авторами почерку.
-CV після пошуку параметрів може переоцінювати якість; фінальна оцінка на відкладеній частині важливіша.
-Один seed і одна реалізація шуму обмежують силу узагальнень. Відмінності CV не оголошуються статистично значущими.
-Оцінка викладача залежить від його критеріїв; робота реалізує всі надані вимоги.
-
-## Джерела
-
-- [scikit-learn: Digits](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html).
-- [UCI: Optical Recognition of Handwritten Digits](https://archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits).
-- [scikit-learn: запобігання витоку даних](https://scikit-learn.org/stable/common_pitfalls.html).
-
-Алгоритми реалізовані бібліотекою scikit-learn. Код організовує експеримент, оцінювання та візуалізацію.
+[digits_classification.ipynb](digits_classification.ipynb), [train_digits.py](train_digits.py) та [results/](results/) збережені як попередня робота на sklearn Digits. Основна робота для перевірки — MNIST у [mnist_project/](mnist_project/).

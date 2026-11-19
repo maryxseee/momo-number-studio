@@ -1,8 +1,10 @@
 # MNIST: моделі, аугментація та стійкість
 
-**Публічна браузерна демонстрація MOMO:** [maryxseee.github.io/momo-number-studio](https://maryxseee.github.io/momo-number-studio/). Новий рожево-жовтий інтерфейс працює автономно через ONNX Runtime Web; його вихідний код у кореневому `site/`. Наведені нижче `app.py` та `/digit` — окрема локальна Python-демонстрація. Browser Canvas preprocessing відрізняється від PIL/SciPy; 90,6% не заявляється як точність сайту.
+**Публічна браузерна демонстрація MOMO:** [maryxseee.github.io/momo-number-studio](https://maryxseee.github.io/momo-number-studio/). Застосунок працює автономно через ONNX Runtime Web; його вихідний код у кореневому `site/`. Наведені нижче `app.py` та `/digit` — окрема локальна Python-демонстрація. Browser Canvas preprocessing відрізняється від PIL/SciPy; 90,6% не заявляється як точність сайту.
 
 Основна розширена робота. Попередній Digits — окремий вступний експеримент у батьківській папці, він не є джерелом чисел цього проєкту.
+
+[Мапа репозиторію з посиланнями на основні матеріали](../README.md#мапа-репозиторію).
 
 ## Що відкрити
 
