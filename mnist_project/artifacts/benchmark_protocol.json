@@ -1,0 +1,70 @@
+{
+  "timestamp_utc": "2026-11-19T10:56:34.343819+00:00",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+  "python": "3.12.14",
+  "torch": "2.15.0+cpu",
+  "numpy": "2.5.4",
+  "threads": 2,
+  "threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 2,
+      "prefix": "libscipy_openblas",
+      "filepath": "C:\\Users\\1\\Documents\\ChatGPT\\\u043e\u0448\u0456\\.packages\\numpy.libs\\libscipy_openblas64_-ed4f167a5330424524f45258e7ca2c8d.dll",
+      "version": "0.3.34.106.0",
+      "threading_layer": "pthreads",
+      "architecture": "Haswell"
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 2,
+      "prefix": "libiomp",
+      "filepath": "C:\\Users\\1\\Documents\\ChatGPT\\\u043e\u0448\u0456\\.mlpackages\\torch\\lib\\libiomp5md.dll",
+      "version": null
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "libiomp",
+      "filepath": "C:\\Users\\1\\Documents\\ChatGPT\\\u043e\u0448\u0456\\.mlpackages\\torch\\lib\\libiompstubs5md.dll",
+      "version": null
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 2,
+      "prefix": "vcomp",
+      "filepath": "C:\\Users\\1\\Documents\\ChatGPT\\\u043e\u0448\u0456\\.packages\\sklearn\\.libs\\vcomp140.dll",
+      "version": null
+    },
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 2,
+      "prefix": "libscipy_openblas",
+      "filepath": "C:\\Users\\1\\Documents\\ChatGPT\\\u043e\u0448\u0456\\.packages\\scipy.libs\\libscipy_openblas-197ee2fc9b4d071f7e048078cac74115.dll",
+      "version": "0.3.31.dev",
+      "threading_layer": "pthreads",
+      "architecture": "Haswell"
+    }
+  ],
+  "repeats": 7,
+  "warmup_batches": 3,
+  "checkpoint_sha256": {
+    "artifacts/checkpoints/MLP_17.pt": "54ae2571a1821f5e773d9b5986d6af1a9e9f209be6ce7f17f2db22625bd88a5a",
+    "artifacts/checkpoints/MLP_42.pt": "2d74a5878acf9d3543f5f9d20c3097e86f02e1f35e1ee3f6859a4f93cb22d62d",
+    "artifacts/checkpoints/MLP_73.pt": "60716f506d45971bd60bb0f1f453e407d99b1aa7029cf56b9f68150ab57999d3",
+    "artifacts/checkpoints/CNN_17.pt": "228d92c9dce7e420bde38ce238be99ebea504e72e871dcb12e32cfe307f1bbc7",
+    "artifacts/checkpoints/CNN_42.pt": "d1de29901d9f7aa6e46ab161afcf0b2b4c75a8f1e265e96139fc69b87b23ee56",
+    "artifacts/checkpoints/CNN_73.pt": "ee9d9bac7e17d9ef7ba52d1826feefbebc210e29fc1c93edad5e03fe892ca441",
+    "artifacts/checkpoints/CNN_aug_17.pt": "464773bf4ef0c702dd15041225dde8fbb637f57ec452aa5243169a7c6b9004c6",
+    "artifacts/checkpoints/CNN_aug_42.pt": "d3a21cf5ceab2cdf3f94d6882d74d622fba145b89a7d8efbd786e918134b0362",
+    "artifacts/checkpoints/CNN_aug_73.pt": "885d6f23b5d66a70e017467e25124128b73ca9bc51aebdcb7ab217111693c956",
+    "artifacts/logistic_regression.joblib": "d9730f21a2fa7a801f828da3af3e028a6a06ad169df54ef79bdd135a69dad77f"
+  },
+  "protocol": "CPU float32 inputs [0,1] in RAM; fixed normalization for neural models; predict_proba/softmax + argmax included; no loading, segmentation, IO or browser. Single: first 100 test images in 100 calls; batch: all 10000 in batches of 256. All outputs checked against frozen predictions before timing. Fixed run order; repeats are timing measurements, not independent training runs."
+}

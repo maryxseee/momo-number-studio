@@ -272,6 +272,12 @@ Accuracy — частка правильних відповідей. Precision �
     number_section=build_section()
     if number_section:
         text=text.replace('## Джерела та відтворення',number_section+'\n\n## Джерела та відтворення')
+    from comparison_report import build_section as build_comparison
+    comparison = build_comparison()
+    (ROOT/'COMPARISON.md').write_text(comparison, encoding='utf-8')
+    background = '\n\n'.join((ROOT/name).read_text(encoding='utf-8') for name in ['DATASET.md', 'LITERATURE.md'])
+    text = text.replace('## 1. Постановка задачі та гіпотези', background+'\n\n## 1. Постановка задачі та гіпотези')
+    text = text.replace('## 6. Основний експеримент:', comparison+'\n\n## 6. Основний експеримент:')
     (ROOT/'REPORT.md').write_text(text, encoding='utf-8')
     print('Report and figures generated.', flush=True)
 

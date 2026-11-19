@@ -33,6 +33,11 @@ OUT = ROOT/'artifacts'
 config = json.loads((ROOT/'config.json').read_text())
 display(config)
 ''')
+    md('''## Паспорт датасету та наукове підґрунтя
+Основне завдання: на одному MNIST навчити три моделі різної архітектурної та обчислювальної складності — LogisticRegression, MLP, CNN — та порівняти якість і витрати. CNN_aug є додатковим експериментом, а не окремою архітектурою. Усна демонстрація сайту не заміняє це дослідження.''')
+    code('''for document in ['DATASET.md', 'LITERATURE.md']:
+    display(Markdown((ROOT/document).read_text(encoding='utf-8')))
+''')
     md('''## 1. План до відкриття test
 MNIST має 60000 офіційних train і 10000 test. Із train виділяємо 50000/10000 для навчання/валідації (stratified, seed=42). Для нейромереж seeds=17,42,73, шість епох, Adam, batch=256. Найкраща епоха визначається за validation macro-F1.
 
@@ -52,12 +57,15 @@ if (OUT/'split.npz').exists():
 if RETRAIN or not (OUT/'training_summary.csv').exists():
     subprocess.run([sys.executable,str(ROOT/'experiment.py')],check=True,cwd=ROOT)
     subprocess.run([sys.executable,str(ROOT/'evaluate.py')],check=True,cwd=ROOT)
+    subprocess.run([sys.executable,str(ROOT/'benchmark.py')],check=True,cwd=ROOT)
     subprocess.run([sys.executable,str(ROOT/'report.py')],check=True,cwd=ROOT)
 else:
     print('Використовуємо результати фактично завершеного навчання. Повторне навчання вимкнено.')
     if not (OUT/'evaluation.json').exists():
         subprocess.run([sys.executable,str(ROOT/'evaluate.py')],check=True,cwd=ROOT)
     if not (ROOT/'REPORT.md').exists() or not (OUT/'figures'/'reliability.png').exists():
+        if not (OUT/'benchmark_summary.csv').exists():
+            subprocess.run([sys.executable,str(ROOT/'benchmark.py')],check=True,cwd=ROOT)
         subprocess.run([sys.executable,str(ROOT/'report.py')],check=True,cwd=ROOT)
 display(json.loads((OUT/'environment.json').read_text()))
 ''')
@@ -168,6 +176,14 @@ display(pd.DataFrame(number_summary['layouts']).T)
 display(Image(filename=str(OUT/'numbers'/'examples.png')))
 from number_report import build_section
 display(Markdown(build_section()))
+''')
+    md('''## 15. Швидкодія та підсумок трьох моделей
+Повторний benchmark використовує збережені ваги й не навчає моделі. Якщо артефакти вже є, Notebook показує фактичні вимірювання; для нового хронометражу виконайте `python benchmark.py`, потім `python report.py`. Наведені часи стосуються CPU/Python, а не сайту.''')
+    code('''if not (OUT/'benchmark_summary.csv').exists():
+    subprocess.run([sys.executable,str(ROOT/'benchmark.py')],check=True,cwd=ROOT)
+from comparison_report import build_section as build_comparison
+display(pd.read_csv(OUT/'benchmark_runs.csv').round(6))
+display(Markdown(build_comparison()))
 ''')
     md('''## Відповідність завданню
 Обрана задача — класифікація; дані — MNIST; навчання — sklearn і PyTorch; оцінювання — validation/test, accuracy, macro-F1, per-class report, матриці, повторні запуски й stress tests. Немає реалізації ML-алгоритмів або градієнтів з нуля. Додатково надані модулі, ваги, протокол, графіки, звіт і локальний застосунок.

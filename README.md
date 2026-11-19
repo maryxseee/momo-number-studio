@@ -16,6 +16,8 @@
 
 ## Основна дослідницька робота: MNIST + PyTorch
 
+Уточнені вимоги: один датасет, огляд статей, три моделі різної складності та порівняння якості/швидкості. Карта матеріалів — [mnist_project/REQUIREMENTS.md](mnist_project/REQUIREMENTS.md); порівняння — [mnist_project/COMPARISON.md](mnist_project/COMPARISON.md). Сайт є додатковою демонстрацією до дослідження.
+
 Розширений дослідницький проєкт розташований у [mnist_project/README.md](mnist_project/README.md). Виконаний Notebook — `mnist_project/research.ipynb`, повний звіт — `mnist_project/REPORT.md`, архів для передачі — `mnist_research_project.zip`.
 
 Нижче описано **попередній вступний експеримент Digits**, який збережено окремо.

@@ -6,6 +6,8 @@
 
 ## Що відкрити
 
+Для уточнених вимог почніть із [REQUIREMENTS.md](REQUIREMENTS.md). Опис даних — [DATASET.md](DATASET.md), огляд трьох статей — [LITERATURE.md](LITERATURE.md), підсумкове порівняння трьох моделей — [COMPARISON.md](COMPARISON.md). Опис даних, огляд статей та порівняння включено також у виконаний Notebook і загальний звіт. Основні моделі: LogisticRegression, MLP, CNN; CNN_aug — додатковий дослід, а не інша архітектура.
+
 1. **research.ipynb** — виконаний Notebook українською: постановка, код моделей і навчання, фактичні історії, таблиці, графіки й висновки.
 2. **REPORT.md** — повний дослідницький звіт із фактичними результатами; автор і група залишені для заповнення.
 3. **DEFENSE.md** — пояснення для захисту.
@@ -41,6 +43,7 @@ python -m pip install -r requirements.txt
 python experiment.py
 python evaluate.py
 python evaluate_numbers.py
+python benchmark.py
 python report.py
 python build_research.py --execute
 python -m unittest discover -s tests -v
